@@ -3,76 +3,92 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
-
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
-
+// Declaring const value as it will be used throughout all the functions and the value will always be same
 const studentList = document.querySelectorAll('.student-item');
 const listLength = studentList.length;
 const page = 10;
 
+// creating showPage function to display the student list
+const showPage = (section)=>{
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
-let showPage = (section)=>{
-
-   let startIndex = (page * section);
+   // setting the starting and ending value in order to display fix amount of student list
+   let startIndex = (page * section) - page;
    let endIndex = startIndex + page;
 
+   // assigning the value of listlength to end index so that the end index value doesnt exceed list length
+   if(endIndex > listLength){
+      endIndex = listLength;
+   }
+
+   // hiding all the list
   for(let i = 0; i < listLength; i++){
       studentList[i].style.display = 'none';
   }
 
+  //displaying the list that is called
   for(let i = startIndex; i < endIndex; i++){
       studentList[i].style.display = 'block';
   }
-
-  console.log(section);
 };
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
 
-let appendPageLinks = () => {
+// creating this function in order to create the navigation and attach it in the HTML
+const appendPageLinks = () => {
 
-   let buttons = [];
-   let htmlPage = document.querySelector('.page');
-   let navigation = Math.floor(listLength / page);
-   console.log(navigation);
+   // creating elements and attaching it to HTML
+   const htmlPage = document.querySelector('.page');
+   const paginationDiv = document.createElement('div');
+   paginationDiv.className = 'pagination';
+   htmlPage.appendChild(paginationDiv);
+   const paginationUL = document.createElement('ul');
+   paginationDiv.appendChild(paginationUL);
 
-   for( let i = 0; i < navigation; i++){
-      buttons[i] = document.createElement('button');
-      buttons[i].textContent = i + 1;   
-      htmlPage.appendChild(buttons[i]);
+   // generating the navigation number to display in the navigation buttons and creating arrays to store the li and a
+   const navigationNum = Math.floor(listLength / page + 1);
+   let li = [];
+   let a = [];
 
-      buttons[i].addEventListener('click',showpage(i));
+   // generating buttons depending upon the size of list
+   for( let i = 0; i < navigationNum; i++){
+      li[i] = document.createElement('li');
+      a[i] = document.createElement('a');
+      li[i].appendChild(a[i]);
+      paginationUL.appendChild(li[i]);
+      a[i].innerHTML = i + 1;
+      // a[i].href = '#';
+
+      // assigning active class to the first link
+      if(i === 0){
+         a[i].classList.add('active');
+      }
    }
+
+   // adding functionality to all the buttons when pressed
+   paginationDiv.addEventListener('click', (e => {
+      if(e.target.tagName == 'A'){
+         const aNavigation = event.target;         
+         let aText = aNavigation.textContent;
+
+         // checking through all the a link and adding active class to the link being selected
+         for(let i = 0; i < navigationNum; i++){
+
+            if(a[i].textContent === aText){
+               a[i].classList.add('active');
+            }
+            else{
+               a[i].classList.remove('active');
+            }
+
+         }
+
+         // calling the funcition depending upon the link pressed
+         showPage(aText);
+      }
+   }));
+
 }
+   
+// calling the show page function in order to display the first list
+showPage(1);
 
+// adding navigation buttons to the page
 appendPageLinks();
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
