@@ -17,7 +17,9 @@ FSJS project 2 - List Filter and Pagination
    scoped to that function.
 ***/
 
-
+const studentList = document.querySelectorAll('.student-item');
+const listLength = studentList.length;
+const page = 10;
 
 
 /*** 
@@ -35,16 +37,42 @@ FSJS project 2 - List Filter and Pagination
        "invoke" the function 
 ***/
 
+let showPage = (section)=>{
 
+   let startIndex = (page * section);
+   let endIndex = startIndex + page;
 
+  for(let i = 0; i < listLength; i++){
+      studentList[i].style.display = 'none';
+  }
 
+  for(let i = startIndex; i < endIndex; i++){
+      studentList[i].style.display = 'block';
+  }
+
+  console.log(section);
+};
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
 
+let appendPageLinks = () => {
 
+   let buttons = [];
+   let htmlPage = document.querySelector('.page');
+   let navigation = Math.floor(listLength / page);
+   console.log(navigation);
 
+   for( let i = 0; i < navigation; i++){
+      buttons[i] = document.createElement('button');
+      buttons[i].textContent = i + 1;   
+      htmlPage.appendChild(buttons[i]);
 
+      buttons[i].addEventListener('click',showpage(i));
+   }
+}
+
+appendPageLinks();
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
