@@ -97,7 +97,7 @@ const pageHeader = document.querySelector('.page-header');
 const searchDiv = document.createElement('div');
 searchDiv.className = 'student-search';
 pageHeader.appendChild(searchDiv);
-let searchInput = document.createElement('input');
+const searchInput = document.createElement('input');
 searchInput.type = 'text';
 searchInput.placeholder = 'Search for students...'
 searchDiv.appendChild(searchInput);
@@ -110,20 +110,23 @@ searchDiv.appendChild(searchButton);
 searchDiv.addEventListener('keyup', e => {
 
    console.log(e);
-   searchInput += searchInput.value;
-   searchStudents(searchInput, studentList);
+   search = searchInput.value;
+   searchStudents(search, studentList);
 
 });
 
-searchStudents = (searchInput, list) => {
-   console.log(searchInput);
+searchStudents = (search, list) => {
+   console.log(search);
 
-   // for( let i = 0; i < list.length; i++){ 
+   console.log(list);
+   for( let i = 0; i < list.length; i++){ 
 
-   //    if(searchInput.value.length != 0 && list[i].h3.textContent.toLowerCase().includes(searchInput.value.toLowerCase())){
-   //       list[i].style.display = 'block';
-   //    }
-   // }
+      if(search.length != 0 && list[i].h3.toLowerCase().includes(search.value.toLowerCase())){
+         
+         console.log(list);
+
+      }
+   }
 
 };
    
