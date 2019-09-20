@@ -131,8 +131,7 @@ searchStudents = (search, list) => {
 
    // calls searchError function if the input is empty
    if(search == ''){
-      searchError();        
-
+      searchError(); 
    }else{
       
       const errorDiv = document.querySelector('.error');
@@ -154,7 +153,6 @@ searchStudents = (search, list) => {
       // if there is no match then calls error function and resets the new student list back to total student list
       if(newStudentList.length == 0){
          searchError();
-         newStudentList = studentList;
       }
       // displaying the page and the navigation
       showPage(newStudentList, 1);
