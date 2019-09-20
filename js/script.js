@@ -8,7 +8,7 @@ const studentList = document.querySelectorAll('.student-item');
 const page = 10;
 
 // creating showPage function to display the student list
-const showPage = (students,section)=>{
+let showPage = (students,section)=>{
 
    const listLength = students.length;
 
@@ -33,7 +33,7 @@ const showPage = (students,section)=>{
 };
 
 // creating this function in order to create the navigation and attach it in the HTML
-const appendPageLinks = (students) => {
+let appendPageLinks = (students) => {
 
    const listLength = students.length;
    // creating navigation elements and attaching it to HTML
@@ -82,7 +82,6 @@ const appendPageLinks = (students) => {
             }
 
          }
-
          // calling the funcition depending upon the link pressed
          showPage(aText);
       }
@@ -107,9 +106,8 @@ searchDiv.appendChild(searchButton);
 
 
 
-searchDiv.addEventListener('keyup', e => {
+searchDiv.addEventListener('keyup', () => {
 
-   console.log(e);
    search = searchInput.value;
    searchStudents(search, studentList);
 
@@ -117,17 +115,18 @@ searchDiv.addEventListener('keyup', e => {
 
 searchStudents = (search, list) => {
    console.log(search);
+   let newStudentList = [];
 
-   console.log(list);
    for( let i = 0; i < list.length; i++){ 
 
-      if(search.length != 0 && list[i].h3.toLowerCase().includes(search.value.toLowerCase())){
-         
-         console.log(list);
+      let listName = list[i].querySelector('h3').textContent.toLowerCase();
 
+      if(search.length != 0 && listName.includes(search.toLowerCase())){
+        newStudentList.push(list[i]);
       }
    }
-
+   showPage(newStudentList, 1);
+   appendPageLinks(newStudentList);
 };
    
 // calling the show page function in order to display the first list
