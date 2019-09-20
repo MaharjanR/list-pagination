@@ -8,13 +8,14 @@ const studentList = document.querySelectorAll('.student-item');
 const page = 10;
 
 // creating showPage function to display the student list
-let showPage = (students,section)=>{
+const showPage = (students,section)=>{
 
    const listLength = students.length;
+   let oldStudents = studentList;
 
    // setting the starting and ending value in order to display fix amount of student list
    const startIndex = (page * section) - page;
-   const endIndex = startIndex + page;
+   let endIndex = startIndex + page;
 
    // assigning the value of listlength to end index so that the end index value doesnt exceed list length
    if(endIndex > listLength){
@@ -22,19 +23,20 @@ let showPage = (students,section)=>{
    }
 
    // hiding all the list
-  for(let i = 0; i < listLength; i++){
-      studentList[i].style.display = 'none';
+  for(let i = 0; i < oldStudents.length; i++){
+      oldStudents[i].style.display = 'none';
   }
 
   //displaying the list that is called
   for(let i = startIndex; i < endIndex; i++){
-      studentList[i].style.display = 'block';
+      students[i].style.display = 'block';
   }
 };
 
 // creating this function in order to create the navigation and attach it in the HTML
-let appendPageLinks = (students) => {
+const appendPageLinks = (students) => {
 
+   // assigning student list length to list length
    const listLength = students.length;
    // creating navigation elements and attaching it to HTML
    const htmlPage = document.querySelector('.page');
@@ -114,7 +116,6 @@ searchDiv.addEventListener('keyup', () => {
 });
 
 searchStudents = (search, list) => {
-   console.log(search);
    let newStudentList = [];
 
    for( let i = 0; i < list.length; i++){ 
