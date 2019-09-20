@@ -41,12 +41,14 @@ const appendPageLinks = (students) => {
    // creating navigation elements and attaching it to HTML
    const htmlPage = document.querySelector('.page');
    
-   const paginationDiv = document.createElement('div');
-   // if(htmlPage.children == paginationDiv){
-   //    htmlPage.removeChild(paginationDiv);
-   // }
+   const paginationDiv = document.createElement('div');   
    paginationDiv.className = 'pagination';
    htmlPage.appendChild(paginationDiv);
+   console.log(htmlPage.children);
+   if(htmlPage.children === paginationDiv){
+      console.log('This is working');
+      htmlPage.removeChild(paginationDiv);
+   }
    const paginationUL = document.createElement('ul');
    paginationDiv.appendChild(paginationUL);
 
