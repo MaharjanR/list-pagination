@@ -40,7 +40,11 @@ const appendPageLinks = (students) => {
    const listLength = students.length;
    // creating navigation elements and attaching it to HTML
    const htmlPage = document.querySelector('.page');
+   
    const paginationDiv = document.createElement('div');
+   // if(htmlPage.children == paginationDiv){
+   //    htmlPage.removeChild(paginationDiv);
+   // }
    paginationDiv.className = 'pagination';
    htmlPage.appendChild(paginationDiv);
    const paginationUL = document.createElement('ul');
@@ -85,7 +89,7 @@ const appendPageLinks = (students) => {
 
          }
          // calling the funcition depending upon the link pressed
-         showPage(aText);
+         showPage(students,aText);
       }
    });
 
