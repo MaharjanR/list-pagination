@@ -40,15 +40,14 @@ const appendPageLinks = (students) => {
    const listLength = students.length;
    // creating navigation elements and attaching it to HTML
    const htmlPage = document.querySelector('.page');
-   
    const paginationDiv = document.createElement('div');   
    paginationDiv.className = 'pagination';
    htmlPage.appendChild(paginationDiv);
-   console.log(htmlPage.children);
-   if(htmlPage.children === paginationDiv){
+   if(htmlPage.firstChild == (paginationDiv.querySelector('.pagination'))){
       console.log('This is working');
       htmlPage.removeChild(paginationDiv);
    }
+
    const paginationUL = document.createElement('ul');
    paginationDiv.appendChild(paginationUL);
 
@@ -70,6 +69,12 @@ const appendPageLinks = (students) => {
       if(i === 0){
          a[i].classList.add('active');
       }
+   }
+
+   const previousPagination = document.querySelector('.pagination');
+   const secondLastChild = htmlPage.lastChild.previousElementSibling;
+   if(secondLastChild == previousPagination){
+      secondLastChild.remove();
    }
 
    // adding functionality to all the buttons when pressed
@@ -97,8 +102,6 @@ const appendPageLinks = (students) => {
 
 }
 
-
-
 // creating search bars for students.
 const pageHeader = document.querySelector('.page-header');
 const searchDiv = document.createElement('div');
@@ -115,26 +118,63 @@ searchDiv.appendChild(searchButton);
 
 
 searchDiv.addEventListener('keyup', () => {
-
    search = searchInput.value;
    searchStudents(search, studentList);
 
 });
 
 searchStudents = (search, list) => {
-   let newStudentList = [];
 
-   for( let i = 0; i < list.length; i++){ 
+   if(search == ''){
+      searchError();        
 
-      let listName = list[i].querySelector('h3').textContent.toLowerCase();
-
-      if(search.length != 0 && listName.includes(search.toLowerCase())){
-        newStudentList.push(list[i]);
+   }else{
+      
+      const errorDiv = document.querySelector('.error');
+      if(errorDiv !== null){
+         errorDiv.remove();
       }
+      let newStudentList = [];
+
+      for( let i = 0; i < list.length; i++){ 
+   
+         const listName = list[i].querySelector('h3').textContent.toLowerCase();
+   
+         if(search.length != 0 && listName.includes(search.toLowerCase())){
+           newStudentList.push(list[i]);
+         }
+      }
+      if(newStudentList.length == 0){
+         searchError();
+         newStudentList = studentList;
+      }
+      showPage(newStudentList, 1);
+      appendPageLinks(newStudentList);
    }
-   showPage(newStudentList, 1);
-   appendPageLinks(newStudentList);
 };
+
+var searchError = () =>{
+   const errorDiv = document.createElement('div');
+   const errorP = document.createElement('p');
+   const htmlPage = document.querySelector('.page');
+   const studentList = document.querySelector('.student-list');
+   errorDiv.appendChild(errorP);
+   htmlPage.appendChild(errorDiv);
+   errorDiv.className = 'error';
+   errorP.innerHTML = 'There are no matches';
+   errorP.style.color = 'red';
+   errorP.style.padding = "1em 0"
+
+   htmlPage.insertBefore(errorDiv,studentList);
+
+   const firstChild = htmlPage.firstElementChild;
+   const secondChild = firstChild.nextElementSibling;
+   const thirdChild = secondChild.nextElementSibling;
+
+   if(secondChild.textContent == thirdChild.textContent){
+      thirdChild.remove();
+   }
+}
    
 // calling the show page function in order to display the first list
 showPage(studentList, 1);
