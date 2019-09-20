@@ -43,11 +43,6 @@ const appendPageLinks = (students) => {
    const paginationDiv = document.createElement('div');   
    paginationDiv.className = 'pagination';
    htmlPage.appendChild(paginationDiv);
-   if(htmlPage.firstChild == (paginationDiv.querySelector('.pagination'))){
-      console.log('This is working');
-      htmlPage.removeChild(paginationDiv);
-   }
-
    const paginationUL = document.createElement('ul');
    paginationDiv.appendChild(paginationUL);
 
@@ -71,6 +66,7 @@ const appendPageLinks = (students) => {
       }
    }
 
+   //checking if the last and secondlast is same and if same remove it
    const previousPagination = document.querySelector('.pagination');
    const secondLastChild = htmlPage.lastChild.previousElementSibling;
    if(secondLastChild == previousPagination){
@@ -116,21 +112,31 @@ searchButton.textContent = 'Search';
 searchDiv.appendChild(searchButton);
 
 
-
+// listing for key up in the input text and running the function
 searchDiv.addEventListener('keyup', () => {
    search = searchInput.value;
    searchStudents(search, studentList);
 
 });
 
+// listing for key up in the input text and running the function
+searchDiv.addEventListener('click', () => {
+   search = searchInput.value;
+   searchStudents(search, studentList);
+
+});
+
+// search for students function
 searchStudents = (search, list) => {
 
+   // calls searchError function if the input is empty
    if(search == ''){
       searchError();        
 
    }else{
       
       const errorDiv = document.querySelector('.error');
+      // check if there is more than one errorDiv and if there is remove it from the page
       if(errorDiv !== null){
          errorDiv.remove();
       }
@@ -141,19 +147,25 @@ searchStudents = (search, list) => {
          const listName = list[i].querySelector('h3').textContent.toLowerCase();
    
          if(search.length != 0 && listName.includes(search.toLowerCase())){
+            // assigns the student list value if the letter matches
            newStudentList.push(list[i]);
          }
       }
+      // if there is no match then calls error function and resets the new student list back to total student list
       if(newStudentList.length == 0){
          searchError();
          newStudentList = studentList;
       }
+      // displaying the page and the navigation
       showPage(newStudentList, 1);
       appendPageLinks(newStudentList);
    }
 };
 
+// if there is error in search, the following function is called
 var searchError = () =>{
+
+   // create a error div and appending it in the display
    const errorDiv = document.createElement('div');
    const errorP = document.createElement('p');
    const htmlPage = document.querySelector('.page');
@@ -163,14 +175,14 @@ var searchError = () =>{
    errorDiv.className = 'error';
    errorP.innerHTML = 'There are no matches';
    errorP.style.color = 'red';
-   errorP.style.padding = "1em 0"
-
+   errorP.style.padding = "1em 0";
    htmlPage.insertBefore(errorDiv,studentList);
 
    const firstChild = htmlPage.firstElementChild;
    const secondChild = firstChild.nextElementSibling;
    const thirdChild = secondChild.nextElementSibling;
 
+   // checks if there is 2 error div to remove one 
    if(secondChild.textContent == thirdChild.textContent){
       thirdChild.remove();
    }
