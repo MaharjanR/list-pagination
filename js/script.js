@@ -131,7 +131,8 @@ searchStudents = (search, list) => {
 
    // calls searchError function if the input is empty
    if(search == ''){
-      searchError(); 
+      showPage(list, 1);
+      appendPageLinks(list);
    }else{
       
       const errorDiv = document.querySelector('.error');
