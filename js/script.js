@@ -75,11 +75,21 @@ const appendPageLinks = (students) => {
    // adding functionality to all the buttons when pressed
    paginationDiv.addEventListener('click', e => {
       if(e.target.tagName === 'A'){
-         // check if the first button is selected or not, if not selected remove the active class
-         if(e.target.textContent !== 1){
-            const pagination = document.querySelectorAll('a')
-            pagination[0].classList= '';
+
+         const pagination = document.querySelectorAll('a')
+
+         // checking active pagination and adding active class
+         for( let i = 0; i < pagination.length; i++){
+            if(e.target.textContent !== pagination[i].textContent){
+               pagination[i].classList= '';
+            }
+            else{
+               pagination[i].classList= 'active';
+            }
          }
+
+
+
          // displays the student based on page num
          showPage(students, e.target.textContent);
       }
