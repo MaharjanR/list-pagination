@@ -47,26 +47,25 @@ const appendPageLinks = (students) => {
    paginationDiv.appendChild(paginationUL);
 
    // generating the navigation number to display in the navigation buttons and creating arrays to store the li and a
-   const navigationNum = Math.floor(listLength / page + 1);
-   const li = [];
-   const a = [];
+   const navigationNum = Math.floor(listLength / page) + 1;
 
    // generating buttons depending upon the size of list
    for( let i = 0; i < navigationNum; i++){      
-      li[i] = document.createElement('li');
-      a[i] = document.createElement('a');
-      li[i].appendChild(a[i]);
-      paginationUL.appendChild(li[i]);
-      a[i].innerHTML = i + 1;
-      a[i].href = '#';
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.setAttribute('href', '#');
+      a.innerHTML = i + 1;
+      paginationUL.appendChild(li);
+      li.appendChild(a);
       
       // assigning active class to the first link
       if(i === 0){
-         a[i].classList.add('active');
+         a.className = 'active';
       }
    }
 
    //checking if the last and secondlast is same and if same remove it
+   // This is to remove the double pagination
    const previousPagination = document.querySelector('.pagination');
    const secondLastChild = htmlPage.lastChild.previousElementSibling;
    if(secondLastChild == previousPagination){
@@ -75,24 +74,14 @@ const appendPageLinks = (students) => {
 
    // adding functionality to all the buttons when pressed
    paginationDiv.addEventListener('click', e => {
-      if(e.target.tagName == 'A'){
-         
-         const aNavigation = event.target;       
-         const aText = aNavigation.textContent;
-
-         // checking through all the a link and adding active class to the link being selected
-         for(let i = 0; i < navigationNum; i++){
-
-            if(a[i].textContent === aText){
-               a[i].classList.add('active');
-            }
-            else{
-               a[i].classList.remove('active');
-            }
-
+      if(e.target.tagName === 'A'){
+         // check if the first button is selected or not, if not selected remove the active class
+         if(e.target.textContent !== 1){
+            const pagination = document.querySelectorAll('a')
+            pagination[0].classList= '';
          }
-         // calling the funcition depending upon the link pressed
-         showPage(students,aText);
+         // displays the student based on page num
+         showPage(students, e.target.textContent);
       }
    });
 
