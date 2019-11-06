@@ -161,7 +161,7 @@ searchStudents = (search, list) => {
 };
 
 // if there is error in search, the following function is called
-var searchError = () =>{
+const searchError = () =>{
 
    // create a error div and appending it in the display
    const errorDiv = document.createElement('div');
